@@ -1,0 +1,101 @@
+order_id,customer_id,order_date,order_status,payment_method,order_amount
+1,547,00:43.1,Returned,Apple Pay,466.65
+2,126,00:43.1,Returned,Mada,429.52
+3,420,00:43.1,Processing,Apple Pay,219.32
+4,802,00:43.1,Processing,Apple Pay,77.37
+5,462,00:43.1,Returned,Cash on Delivery,227.84
+6,15,00:43.1,Delivered,STC Pay,447.31
+7,72,00:43.1,Processing,STC Pay,395.55
+8,607,00:43.1,Cancelled,Cash on Delivery,373.91
+9,951,00:43.1,Delivered,STC Pay,268.19
+10,540,00:43.1,Processing,Apple Pay,69.98
+11,236,00:43.1,Returned,STC Pay,325.1
+12,554,00:43.1,Delivered,Apple Pay,413.31
+13,847,00:43.1,Processing,Cash on Delivery,329.03
+14,822,00:43.1,Delivered,Mada,400.59
+15,60,00:43.1,Delivered,Apple Pay,182.63
+16,188,00:43.1,Delivered,Credit Card,120.6
+17,640,00:43.1,Delivered,Cash on Delivery,79.17
+18,168,00:43.1,Cancelled,Cash on Delivery,163.85
+19,254,00:43.1,Delivered,Mada,225.7
+20,397,00:43.1,Delivered,Credit Card,78.45
+21,636,00:43.1,Cancelled,STC Pay,300.62
+22,613,00:43.1,Cancelled,Mada,243.82
+23,548,00:43.1,Processing,Apple Pay,83.76
+24,901,00:43.1,Delivered,Credit Card,471.82
+25,793,00:43.1,Cancelled,Credit Card,97.58
+26,674,00:43.1,Delivered,Credit Card,356.29
+27,458,00:43.1,Returned,Credit Card,414.02
+28,474,00:43.1,Cancelled,Mada,101.13
+29,60,00:43.1,Cancelled,Mada,327.06
+30,731,00:43.1,Cancelled,Credit Card,267.65
+31,86,00:43.1,Delivered,Mada,248.57
+32,304,00:43.1,Processing,Cash on Delivery,176.3
+33,16,00:43.1,Processing,Apple Pay,481.16
+34,699,00:43.1,Processing,Cash on Delivery,382.42
+35,72,00:43.1,Returned,Apple Pay,265.96
+36,673,00:43.1,Delivered,Mada,140.84
+37,820,00:43.1,Cancelled,Cash on Delivery,339.46
+38,399,00:43.1,Cancelled,Apple Pay,392.92
+39,909,00:43.1,Processing,Mada,148.21
+40,387,00:43.1,Cancelled,Mada,66.1
+41,645,00:43.1,Delivered,Cash on Delivery,441.38
+42,368,00:43.1,Returned,Credit Card,76.94
+43,706,00:43.1,Cancelled,Credit Card,111.06
+44,645,00:43.1,Processing,Credit Card,63.66
+45,723,00:43.1,Returned,Mada,307.89
+46,304,00:43.1,Cancelled,Cash on Delivery,493.15
+47,856,00:43.1,Processing,Credit Card,462.51
+48,960,00:43.1,Cancelled,STC Pay,395.07
+49,700,00:43.1,Processing,STC Pay,326.28
+50,9,00:43.1,Returned,Apple Pay,292.62
+51,825,00:43.1,Returned,STC Pay,309.08
+52,692,00:43.1,Processing,Cash on Delivery,141.07
+53,52,00:43.1,Returned,STC Pay,406.78
+54,500,00:43.1,Returned,Mada,338.88
+55,262,00:43.1,Processing,Apple Pay,405.12
+56,51,00:43.1,Processing,Credit Card,163.03
+57,832,00:43.1,Delivered,Mada,413.27
+58,2,00:43.1,Processing,STC Pay,281.92
+59,37,00:43.1,Processing,Mada,368.17
+60,799,00:43.1,Delivered,Mada,196.05
+61,723,00:43.1,Processing,Mada,237.16
+62,455,00:43.1,Processing,STC Pay,340.52
+63,832,00:43.1,Processing,Cash on Delivery,455.49
+64,186,00:43.1,Returned,Credit Card,171.85
+65,20,00:43.1,Returned,Credit Card,435.27
+66,593,00:43.1,Cancelled,Apple Pay,373.66
+67,395,00:43.1,Delivered,Mada,498.19
+68,784,00:43.1,Returned,Apple Pay,457.11
+69,609,00:43.1,Delivered,STC Pay,328.32
+70,700,00:43.1,Cancelled,Credit Card,77.15
+71,160,00:43.1,Processing,Cash on Delivery,267.44
+72,272,00:43.1,Delivered,Mada,90.62
+73,671,00:43.1,Processing,Apple Pay,347.99
+74,41,00:43.1,Cancelled,Cash on Delivery,80.36
+75,561,00:43.1,Processing,STC Pay,149.63
+76,148,00:43.1,Returned,Apple Pay,93.67
+77,419,00:43.1,Processing,Mada,55.61
+78,589,00:43.1,Delivered,Mada,358.7
+79,869,00:43.1,Delivered,Apple Pay,120.01
+80,781,00:43.1,Cancelled,Credit Card,65.88
+81,735,00:43.1,Delivered,Apple Pay,295.92
+82,705,00:43.1,Delivered,Apple Pay,204.07
+83,913,00:43.1,Delivered,Cash on Delivery,293.11
+84,339,00:43.1,Delivered,Credit Card,474.82
+85,650,00:43.1,Cancelled,STC Pay,328.6
+86,534,00:43.1,Delivered,Cash on Delivery,170.92
+87,309,00:43.1,Cancelled,Apple Pay,446.7
+88,92,00:43.1,Returned,Cash on Delivery,217.93
+89,33,00:43.1,Cancelled,Mada,364.6
+90,117,00:43.1,Processing,Apple Pay,253.73
+91,801,00:43.1,Processing,Apple Pay,156.12
+92,59,00:43.1,Returned,Cash on Delivery,476.86
+93,85,00:43.1,Delivered,Cash on Delivery,170.73
+94,403,00:43.1,Returned,Credit Card,208.13
+95,152,00:43.1,Cancelled,STC Pay,149.47
+96,50,00:43.1,Processing,Cash on Delivery,86.79
+97,538,00:43.1,Cancelled,Apple Pay,480.5
+98,353,00:43.1,Cancelled,STC Pay,372
+99,542,00:43.1,Delivered,Mada,345.97
+100,391,00:43.1,Cancelled,Mada,188.87

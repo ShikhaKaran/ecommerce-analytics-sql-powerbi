@@ -1,0 +1,65 @@
+-- ============================================
+-- INSERT DATA INTO CUSTOMERS TABLE (1,000 rows)
+-- ============================================
+INSERT INTO customers (first_name, last_name, gender, country, email, created_at)
+SELECT
+    initcap(md5(random()::text)) AS first_name,
+    initcap(md5(random()::text)) AS last_name,
+    CASE WHEN random() < 0.5 THEN 'Male' ELSE 'Female' END AS gender,
+    (ARRAY['Saudi Arabia','United Arab Emirates','Kuwait','Oman','Egypt'])[floor(random()*5)+1] AS country,
+    md5(random()::text) || '@gmail.com' AS email,
+    NOW() - (random() * INTERVAL '365 days') AS created_at
+FROM generate_series(1, 1000);
+
+
+-- ============================================
+-- INSERT DATA INTO PRODUCTS TABLE (100 rows)
+-- ============================================
+INSERT INTO products (product_name, category, sub_category, price, cost, created_at)
+SELECT
+    'Product ' || gs AS product_name,
+    (ARRAY['Home & Kitchen','Electronics','Sports'])[floor(random()*3)+1] AS category,
+    (ARRAY['Premium','Standard','Budget'])[floor(random()*3)+1] AS sub_category,
+    round((random() * 300) + 50, 2) AS price,
+    round((random() * 150) + 20, 2) AS cost,
+    NOW() - (random() * INTERVAL '200 days') AS created_at
+FROM generate_series(1, 100) gs;
+
+
+-- ============================================
+-- INSERT DATA INTO ORDERS TABLE (5,000 rows)
+-- ============================================
+INSERT INTO orders (customer_id, order_date, payment_method, order_status)
+SELECT
+    floor(random() * 1000 + 1)::int AS customer_id,
+    NOW() - (random() * INTERVAL '365 days') AS order_date,
+    (ARRAY['Credit Card','Debit Card','Cash on Delivery','PayPal'])[floor(random()*4)+1] AS payment_method,
+    (ARRAY['Completed','Shipped','Processing','Cancelled'])[floor(random()*4)+1] AS order_status
+FROM generate_series(1, 5000);
+
+
+-- ============================================
+-- INSERT DATA INTO ORDER_ITEMS TABLE (15,000 rows)
+-- ============================================
+INSERT INTO order_items (order_id, product_id, quantity, price, total_amount)
+SELECT
+    floor(random() * 5000 + 1)::int AS order_id,
+    floor(random() * 100 + 1)::int AS product_id,
+    floor(random() * 3 + 1)::int AS quantity,
+    p.price AS price,
+    (p.price * (floor(random() * 3 + 1))) AS total_amount
+FROM generate_series(1, 15000) gs
+JOIN products p ON p.product_id = floor(random() * 100 + 1);
+
+
+-- ============================================
+-- INSERT DATA INTO CUSTOMER_SESSIONS TABLE (5,000 rows)
+-- ============================================
+INSERT INTO customer_sessions (customer_id, session_start, session_end, traffic_source, device_type)
+SELECT
+    floor(random() * 1000 + 1)::int AS customer_id,
+    NOW() - (random() * INTERVAL '60 days') AS session_start,
+    NOW() - (random() * INTERVAL '60 days') + INTERVAL '5 minutes' * (floor(random()*20)+1) AS session_end,
+    (ARRAY['Direct','Google Search','Facebook Ads','Instagram','Email Campaign','Referral'])[floor(random()*6)+1] AS traffic_source,
+    (ARRAY['Mobile','Desktop','Tablet'])[floor(random()*3)+1] AS device_type
+FROM generate_series(1, 5000);

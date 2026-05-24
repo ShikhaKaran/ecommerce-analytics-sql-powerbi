@@ -1,0 +1,108 @@
+-- ============================================
+-- 1. TOTAL REVENUE
+-- ============================================
+SELECT 
+    SUM(oi.total_amount) AS total_revenue
+FROM order_items oi;
+
+
+-- ============================================
+-- 2. TOTAL ORDERS
+-- ============================================
+SELECT 
+    COUNT(*) AS total_orders
+FROM orders;
+
+
+-- ============================================
+-- 3. TOTAL CUSTOMERS
+-- ============================================
+SELECT 
+    COUNT(*) AS total_customers
+FROM customers;
+
+
+-- ============================================
+-- 4. AVERAGE ORDER VALUE (AOV)
+-- ============================================
+SELECT 
+    SUM(oi.total_amount) / COUNT(DISTINCT o.order_id) AS aov
+FROM order_items oi
+JOIN orders o ON o.order_id = oi.order_id;
+
+
+-- ============================================
+-- 5. REPEAT CUSTOMER PERCENTAGE
+-- ============================================
+SELECT 
+    (COUNT(*) FILTER (WHERE order_count > 1) * 100.0 / COUNT(*)) AS repeat_customer_percentage
+FROM (
+    SELECT 
+        customer_id,
+        COUNT(order_id) AS order_count
+    FROM orders
+    GROUP BY customer_id
+) t;
+
+
+-- ============================================
+-- 6. TOP 5 COUNTRIES BY REVENUE
+-- ============================================
+SELECT 
+    c.country,
+    SUM(oi.total_amount) AS revenue
+FROM order_items oi
+JOIN orders o ON o.order_id = oi.order_id
+JOIN customers c ON c.customer_id = o.customer_id
+GROUP BY c.country
+ORDER BY revenue DESC
+LIMIT 5;
+
+
+-- ============================================
+-- 7. REVENUE BY CATEGORY
+-- ============================================
+SELECT 
+    p.category,
+    SUM(oi.total_amount) AS revenue
+FROM order_items oi
+JOIN products p ON p.product_id = oi.product_id
+GROUP BY p.category
+ORDER BY revenue DESC;
+
+
+-- ============================================
+-- 8. TOP 10 PRODUCTS BY REVENUE
+-- ============================================
+SELECT 
+    p.product_name,
+    SUM(oi.total_amount) AS revenue
+FROM order_items oi
+JOIN products p ON p.product_id = oi.product_id
+GROUP BY p.product_name
+ORDER BY revenue DESC
+LIMIT 10;
+
+
+-- ============================================
+-- 9. MONTHLY REVENUE TREND
+-- ============================================
+SELECT 
+    DATE_TRUNC('month', o.order_date) AS month,
+    SUM(oi.total_amount) AS revenue
+FROM order_items oi
+JOIN orders o ON o.order_id = oi.order_id
+GROUP BY DATE_TRUNC('month', o.order_date)
+ORDER BY month;
+
+
+-- ============================================
+-- 10. TRAFFIC SOURCE BREAKDOWN
+-- ============================================
+SELECT 
+    traffic_source,
+    COUNT(*) AS total_sessions,
+    ROUND(COUNT(*) * 100.0 / SUM(COUNT(*)) OVER (), 2) AS percentage
+FROM customer_sessions
+GROUP BY traffic_source
+ORDER BY total_sessions DESC;

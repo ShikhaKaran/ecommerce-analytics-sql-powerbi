@@ -1,0 +1,55 @@
+-- ============================================
+-- RFM SEGMENTATION SCRIPT
+-- ============================================
+
+-- ============================================
+-- 1. BUILD RFM BASE TABLE
+-- ============================================
+WITH rfm_base AS (
+    SELECT
+        o.customer_id,
+        MAX(o.order_date) AS last_order_date,
+        COUNT(o.order_id) AS frequency,
+        SUM(oi.total_amount) AS monetary
+    FROM orders o
+    JOIN order_items oi ON o.order_id = oi.order_id
+    GROUP BY o.customer_id
+),
+
+-- ============================================
+-- 2. ASSIGN RFM SCORES (1–5)
+-- ============================================
+rfm_scores AS (
+    SELECT
+        customer_id,
+        NTILE(5) OVER (ORDER BY last_order_date DESC) AS recency_score,
+        NTILE(5) OVER (ORDER BY frequency) AS frequency_score,
+        NTILE(5) OVER (ORDER BY monetary) AS monetary_score
+    FROM rfm_base
+)
+
+-- ============================================
+-- 3. ASSIGN RFM SEGMENTS
+-- ============================================
+SELECT
+    customer_id,
+    recency_score,
+    frequency_score,
+    monetary_score,
+    CASE
+        WHEN recency_score >= 4 AND frequency_score >= 4 AND monetary_score >= 4
+            THEN 'Champions'
+        WHEN recency_score >= 4 AND frequency_score >= 3
+            THEN 'Loyal Customers'
+        WHEN recency_score >= 3 AND monetary_score >= 4
+            THEN 'Big Spenders'
+        WHEN frequency_score >= 4
+            THEN 'Frequent Buyers'
+        WHEN recency_score = 5
+            THEN 'New Customers'
+        WHEN recency_score <= 2 AND frequency_score <= 2 AND monetary_score <= 2
+            THEN 'At Risk'
+        ELSE 'Regular Customers'
+    END AS rfm_segment
+FROM rfm_scores
+ORDER BY customer_id;

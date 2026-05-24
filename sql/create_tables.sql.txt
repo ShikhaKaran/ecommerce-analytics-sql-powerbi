@@ -1,0 +1,60 @@
+-- ============================
+-- 1. CUSTOMERS TABLE
+-- ============================
+CREATE TABLE customers (
+    customer_id        SERIAL PRIMARY KEY,
+    first_name         VARCHAR(50),
+    last_name          VARCHAR(50),
+    gender             VARCHAR(10),
+    country            VARCHAR(100),
+    email              VARCHAR(150),
+    created_at         TIMESTAMP
+);
+
+-- ============================
+-- 2. PRODUCTS TABLE
+-- ============================
+CREATE TABLE products (
+    product_id     SERIAL PRIMARY KEY,
+    product_name   VARCHAR(200),
+    category       VARCHAR(100),
+    sub_category   VARCHAR(100),
+    price          NUMERIC(10,2),
+    cost           NUMERIC(10,2),
+    created_at     TIMESTAMP
+);
+
+-- ============================
+-- 3. ORDERS TABLE
+-- ============================
+CREATE TABLE orders (
+    order_id        SERIAL PRIMARY KEY,
+    customer_id     INT REFERENCES customers(customer_id),
+    order_date      TIMESTAMP,
+    payment_method  VARCHAR(50),
+    order_status    VARCHAR(50)
+);
+
+-- ============================
+-- 4. ORDER ITEMS TABLE
+-- ============================
+CREATE TABLE order_items (
+    order_item_id   SERIAL PRIMARY KEY,
+    order_id        INT REFERENCES orders(order_id),
+    product_id      INT REFERENCES products(product_id),
+    quantity        INT,
+    price           NUMERIC(10,2),
+    total_amount    NUMERIC(12,2)
+);
+
+-- ============================
+-- 5. CUSTOMER SESSIONS TABLE
+-- ============================
+CREATE TABLE customer_sessions (
+    session_id      SERIAL PRIMARY KEY,
+    customer_id     INT REFERENCES customers(customer_id),
+    session_start   TIMESTAMP,
+    session_end     TIMESTAMP,
+    traffic_source  VARCHAR(100),
+    device_type     VARCHAR(50)
+);

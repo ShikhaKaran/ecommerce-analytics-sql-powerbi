@@ -1,0 +1,114 @@
+-- ============================================
+-- DATA CLEANING & TRANSFORMATION SCRIPTS
+-- ============================================
+
+
+-- ============================================
+-- 1. STANDARDIZE COUNTRY NAMES
+-- ============================================
+UPDATE customers
+SET country = CASE
+    WHEN country ILIKE 'saudi%' THEN 'Saudi Arabia'
+    WHEN country ILIKE 'uae%' OR country ILIKE 'united arab%' THEN 'United Arab Emirates'
+    WHEN country ILIKE 'kuwait%' THEN 'Kuwait'
+    WHEN country ILIKE 'oman%' THEN 'Oman'
+    WHEN country ILIKE 'egypt%' THEN 'Egypt'
+    ELSE country
+END;
+
+
+-- ============================================
+-- 2. STANDARDIZE GENDER VALUES
+-- ============================================
+UPDATE customers
+SET gender = CASE
+    WHEN gender ILIKE 'm%' THEN 'Male'
+    WHEN gender ILIKE 'f%' THEN 'Female'
+    ELSE 'Other'
+END;
+
+
+-- ============================================
+-- 3. FIX NEGATIVE OR ZERO QUANTITY IN ORDER ITEMS
+-- ============================================
+UPDATE order_items
+SET quantity = 1
+WHERE quantity <= 0;
+
+
+-- ============================================
+-- 4. FIX NEGATIVE OR ZERO PRICE VALUES
+-- ============================================
+UPDATE products
+SET price = 50
+WHERE price <= 0;
+
+UPDATE order_items
+SET price = 50
+WHERE price <= 0;
+
+
+-- ============================================
+-- 5. RECALCULATE TOTAL AMOUNT IF INCORRECT
+-- ============================================
+UPDATE order_items
+SET total_amount = price * quantity
+WHERE total_amount IS NULL
+   OR total_amount <= 0
+   OR total_amount <> price * quantity;
+
+
+-- ============================================
+-- 6. REMOVE DUPLICATE EMAILS (KEEP MOST RECENT)
+-- ============================================
+DELETE FROM customers c
+WHERE c.customer_id NOT IN (
+    SELECT DISTINCT ON (email)
+        customer_id
+    FROM customers
+    ORDER BY email, created_at DESC
+);
+
+
+-- ============================================
+-- 7. FIX SESSION END TIMES EARLIER THAN START
+-- ============================================
+UPDATE customer_sessions
+SET session_end = session_start + INTERVAL '10 minutes'
+WHERE session_end < session_start;
+
+
+-- ============================================
+-- 8. STANDARDIZE TRAFFIC SOURCE VALUES
+-- ============================================
+UPDATE customer_sessions
+SET traffic_source = CASE
+    WHEN traffic_source ILIKE 'google%' THEN 'Google Search'
+    WHEN traffic_source ILIKE 'fb%' OR traffic_source ILIKE 'face%' THEN 'Facebook Ads'
+    WHEN traffic_source ILIKE 'insta%' THEN 'Instagram'
+    WHEN traffic_source ILIKE 'email%' THEN 'Email Campaign'
+    WHEN traffic_source ILIKE 'direct%' THEN 'Direct'
+    WHEN traffic_source ILIKE 'ref%' THEN 'Referral'
+    ELSE traffic_source
+END;
+
+
+-- ============================================
+-- 9. REMOVE CANCELLED ORDERS FROM ANALYSIS (OPTIONAL)
+-- ============================================
+-- DELETE FROM orders WHERE order_status = 'Cancelled';
+-- NOTE: Uncomment above line only if you want to exclude cancelled orders.
+
+
+-- ============================================
+-- 10. ENSURE ALL FOREIGN KEYS MATCH VALID IDs
+-- ============================================
+DELETE FROM orders
+WHERE customer_id NOT IN (SELECT customer_id FROM customers);
+
+DELETE FROM order_items
+WHERE order_id NOT IN (SELECT order_id FROM orders)
+   OR product_id NOT IN (SELECT product_id FROM products);
+
+DELETE FROM customer_sessions
+WHERE customer_id NOT IN (SELECT customer_id FROM customers);
